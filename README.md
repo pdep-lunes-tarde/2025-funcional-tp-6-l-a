@@ -11,7 +11,6 @@
 
 ## Equipo
 
-- L-A
 
 - Legajo: **222.281-4** 
 - Nombre: **Agustina Denise Duran**
