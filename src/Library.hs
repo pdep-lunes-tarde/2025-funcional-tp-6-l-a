@@ -5,6 +5,7 @@ data Ingrediente =
     Carne | Pan | Panceta | Cheddar | Pollo | Curry | QuesoDeAlmendras
     deriving (Eq, Show)
 
+precioIngrediente :: Ingrediente -> Number
 precioIngrediente Carne = 20
 precioIngrediente Pan = 2
 precioIngrediente Panceta = 10
@@ -18,3 +19,42 @@ data Hamburguesa = Hamburguesa {
     ingredientes :: [Ingrediente]
 } deriving (Eq, Show)
 
+esCarne :: Ingrediente -> Bool
+esCarne ingrediente = Carne == ingrediente
+
+esPollo :: Ingrediente -> Bool
+esPollo ingrediente = Pollo == ingrediente
+
+tieneCarne :: Hamburguesa -> Bool
+tieneCarne hamburguesa = any esCarne (ingredientes hamburguesa)
+
+tienePollo :: Hamburguesa -> Bool
+tienePollo hamburguesa = any esPollo (ingredientes hamburguesa)
+
+agrandar :: Hamburguesa -> Hamburguesa
+agrandar hamburguesa
+    | tieneCarne hamburguesa = hamburguesa {ingredientes = Carne : ingredientes hamburguesa}
+    | tienePollo hamburguesa = hamburguesa {ingredientes = Pollo : ingredientes hamburguesa}
+    | otherwise = hamburguesa
+
+agregarIngrediente :: Ingrediente -> Hamburguesa -> Hamburguesa
+agregarIngrediente ingredienteAAgregar hamburguesa = hamburguesa {ingredientes = ingredienteAAgregar : ingredientes hamburguesa}
+
+agregarIngredientes :: [Ingrediente] -> Hamburguesa -> Hamburguesa
+agregarIngredientes [] hamburguesa = hamburguesa
+agregarIngredientes (ingrediente : otrosIngredientes) hamburguesa =
+    agregarIngredientes otrosIngredientes (agregarIngrediente ingrediente hamburguesa)
+
+
+calcularPrecio :: Hamburguesa -> Number
+calcularPrecio hamburguesa = precioBase hamburguesa + sum(map precioIngrediente (ingredientes hamburguesa))
+
+descuento :: Number -> Hamburguesa -> Hamburguesa
+descuento porcentaje hamburguesa = hamburguesa {precioBase = precioBase hamburguesa * (1 - porcentaje/100)}
+
+cuartoDeLibra :: Hamburguesa
+cuartoDeLibra = Hamburguesa {precioBase = 20, ingredientes = [Pan, Carne, Cheddar, Pan]}
+
+pdepBurger :: Hamburguesa
+pdepBurger =
+    Hamburguesa {precioBase = precioBase (descuento 20 cuartoDeLibra), ingredientes = ingredientes (agregarIngredientes [Panceta, Cheddar] cuartoDeLibra)}
