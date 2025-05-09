@@ -56,5 +56,8 @@ cuartoDeLibra :: Hamburguesa
 cuartoDeLibra = Hamburguesa {precioBase = 20, ingredientes = [Pan, Carne, Cheddar, Pan]}
 
 pdepBurger :: Hamburguesa
-pdepBurger =
-    Hamburguesa {precioBase = precioBase (descuento 20 cuartoDeLibra), ingredientes = ingredientes (agregarIngredientes [Panceta, Cheddar] cuartoDeLibra)}
+pdepBurger = descuento 20 (agrandar (agrandar (agregarIngredientes [Panceta, Cheddar] cuartoDeLibra)))
+
+
+-- >>> calcularPrecio pdepBurger
+-- 110
