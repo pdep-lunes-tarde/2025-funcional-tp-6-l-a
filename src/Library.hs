@@ -71,29 +71,16 @@ cuartoDeLibra = Hamburguesa {precioBase = 20, ingredientes = [Pan, Carne, Chedda
 pdepBurger :: Hamburguesa
 pdepBurger = descuento 20 (agrandar (agrandar (agregarIngredientes [Panceta, Cheddar] cuartoDeLibra)))
 
-
--- >>> calcularPrecio pdepBurger
--- 110
-
 -- Punto 2
 
 dobleCuarto :: Hamburguesa
 dobleCuarto = agrandar (agregarIngrediente Cheddar cuartoDeLibra)
 
--- >>> calcularPrecio dobleCuarto
--- 84
-
 bigPdep :: Hamburguesa
 bigPdep = agregarIngrediente Curry dobleCuarto
 
--- >>> calcularPrecio bigPdep
--- 89
-
 delDia :: Hamburguesa -> Hamburguesa
 delDia hamburguesa = descuento 30 (agregarIngrediente Papas hamburguesa)
-
--- >>> calcularPrecio (delDia dobleCuarto)
--- 88
 
 -- Punto 3
 
@@ -124,6 +111,3 @@ cambiarPanDePati hamburguesa = hamburguesa {
 
 dobleCuartoVegano :: Hamburguesa
 dobleCuartoVegano = cambiarPanDePati (hacerVeggie dobleCuarto)
-
--- >>> calcularPrecio dobleCuartoVegano
--- 76
