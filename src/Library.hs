@@ -2,7 +2,7 @@ module Library where
 import PdePreludat
 
 data Ingrediente =
-    Carne | Pan | Panceta | Cheddar | Pollo | Curry | QuesoDeAlmendras
+    Carne | Pan | Panceta | Cheddar | Pollo | Curry | QuesoDeAlmendras | Papas
     deriving (Eq, Show)
 
 precioIngrediente :: Ingrediente -> Number
@@ -13,6 +13,7 @@ precioIngrediente Cheddar = 10
 precioIngrediente Pollo =  10
 precioIngrediente Curry = 5
 precioIngrediente QuesoDeAlmendras = 15
+precioIngrediente Papas = 10
 
 data Hamburguesa = Hamburguesa {
     precioBase :: Number,
@@ -47,7 +48,7 @@ agregarIngredientes (ingrediente : otrosIngredientes) hamburguesa =
 
 
 calcularPrecio :: Hamburguesa -> Number
-calcularPrecio hamburguesa = precioBase hamburguesa + sum(map precioIngrediente (ingredientes hamburguesa))
+calcularPrecio hamburguesa = precioBase hamburguesa + sum (map precioIngrediente (ingredientes hamburguesa))
 
 descuento :: Number -> Hamburguesa -> Hamburguesa
 descuento porcentaje hamburguesa = hamburguesa {precioBase = precioBase hamburguesa * (1 - porcentaje/100)}
@@ -61,3 +62,20 @@ pdepBurger = descuento 20 (agrandar (agrandar (agregarIngredientes [Panceta, Che
 
 -- >>> calcularPrecio pdepBurger
 -- 110
+
+dobleCuarto :: Hamburguesa
+dobleCuarto = agrandar (agregarIngrediente Cheddar cuartoDeLibra)
+
+-- >>> calcularPrecio dobleCuarto
+-- 84
+
+bigPdep :: Hamburguesa
+bigPdep = agregarIngrediente Curry dobleCuarto
+
+-- >>> calcularPrecio bigPdep
+-- 89
+
+delDia :: Hamburguesa -> Hamburguesa
+delDia hamburguesa = descuento 30 (agregarIngrediente Papas hamburguesa)
+
+-- >>> calcularPrecio (delDia bigPdep)
